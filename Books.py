@@ -1,5 +1,6 @@
 import sys
 import requests
+import time
 from bs4 import BeautifulSoup
 
 URL = "https://search.books.com.tw/search/query/key/{}/cat/all"
@@ -26,7 +27,16 @@ def web_scraping_bot(url):
     boooklist = []
     print("retrive data from Internet...")
     soup = parse_html(get_resource(url))
-    print(soup)
+    if soup != None:
+        tag_item = soup.find_all(class_="box_1")
+        #print(tag_item)
+        for item in tag_item:
+            book = []
+            book.append(item.find("img")["alt"])
+            print(book)
+            print("wait 2 sec")
+            time.sleep(2)
+    #print(soup)
 
 if __name__ == "__main__":
     if len(sys.argv)>1:

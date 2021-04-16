@@ -33,10 +33,16 @@ def web_scraping_bot(url):
         for item in tag_item:
             book = []
             book.append(item.find("img")["alt"])
+            [isbn, price] = get_ISBN_Price(item.find("a")["href"])
+            book.append(isbn)
+            book.append(price)
             print(book)
+
             print("wait 2 sec")
             time.sleep(2)
     #print(soup)
+
+
 
 if __name__ == "__main__":
     if len(sys.argv)>1:

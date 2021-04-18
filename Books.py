@@ -37,12 +37,32 @@ def web_scraping_bot(url):
             book.append(isbn)
             book.append(price)
             print(book)
-
             print("wait 2 sec")
             time.sleep(2)
     #print(soup)
 
+def get_ISBN_Price(url) :
+    url1 = "https:" + url
+    soup = parse_html(get_resource(url1))
+    isbnStr = ""
+    if soup != None:
+        bd = soup.find(class_="bd")
+        liList = bd.find_all("li")
+        print("liList \n", liList)
+        price = 0
+        priceUl = soup.find('ul', {'class': 'price'})
 
+        for liData in liList:
+            print("liData\n\n", liData.text)
+            if "ISBN " in liData.text:
+                isbnStr = liData.text[5:]
+        price = priceUl.find('li').text[3:-1]
+        return [isbnStr, price]
+    else:
+        return [None, None]
+
+    #print(url1)
+    #return [url1,'1000']
 
 if __name__ == "__main__":
     if len(sys.argv)>1:
@@ -50,5 +70,5 @@ if __name__ == "__main__":
         #print(get_resource(url).text)
         #soup = parse_html(get_resource(url))
         booklist = web_scraping_bot(url)
-        for item in booklist:
-            print(item)
+        #for item in booklist:
+            #print(item)
